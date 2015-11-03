@@ -16,7 +16,7 @@
 // ==UserScript==
 // @name agent-stats-filter
 // @namespace https://zhaofeng.li
-// @version 2
+// @version 3
 // @description This script adds filtering capabilities to Agent Stats.
 // @match https://www.agent-stats.com/groups.php*
 // @require https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
@@ -52,7 +52,8 @@ var filterui = "\
 			<button id='filter-date-launch'>Go</button>\
 		</span>\
 	</label>\
-	<button id='filter-reset'>Reset filters</button>\
+	<button id='filter-reset'>Reset filters</button><br/>\
+	<small>Note: You can apply multiple filters at once. When filtering by faction, choose &gt; or &gt;= to show Resistance agents only, and vice versa.</small>\
 </fieldset>\
 ";
 
@@ -76,10 +77,10 @@ function filterStats( column, greater, includeequal, value ) {
 			date.setDate( parseInt( data[1] ) );
 			data = date.getTime();
 		} else if ( column === 1 ) { // faction
-			if ( false === ( $( element ).hasClass( "res" ) && greaterthan ) ) {
+			if ( $( element ).hasClass( "res" ) != greater ) {
 				$( this ).hide();
-				return; // Next!
 			}
+			return; // Next!
 		} else { // numerical data
 			if ( data != "-" ) {
 				data = parseInt( data.replace( /,/g, "" ) ); // convert to int
