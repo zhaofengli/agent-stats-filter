@@ -16,10 +16,10 @@
 // ==UserScript==
 // @name agent-stats-filter
 // @namespace https://zhaofeng.li
-// @version 1
+// @version 2
 // @description This script adds filtering capabilities to Agent Stats.
 // @match https://www.agent-stats.com/groups.php*
-// @require https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
+// @require https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
 // ==/UserScript==
 
 var filterui = "\
@@ -119,25 +119,25 @@ function initFilter() {
 	if ( $( "#group" ).length ) {
 		$( "fieldset:first" ).after( filterui );
 		$( "#filter-basic-launch" ).click( function( e ) {
+			e.preventDefault();
 			var compare = parseInt( $( "#filter-basic-compare" ).val() );
 			var greater = parseInt( compare / 10 );
 			var includeequal = parseInt( compare % 10 );
 			var column = parseInt( $( "#filter-basic-column" ).val() );
 			var value = parseInt( $( "#filter-basic-value" ).val() );
 			filterStats( column, greater, includeequal, value );
-			e.preventDefault();
 		} );
 		$( "#filter-date-launch" ).click( function( e ) {
+			e.preventDefault();
 			var column = -1;
 			var greater = true;
 			var includeequal = true;
 			var value = Date.now() - parseInt( $( "#filter-date-threshold" ).val() ) * 1000;
 			filterStats( column, greater, includeequal, value );
-			e.preventDefault();
 		} );
 		$( "#filter-reset" ).click( function( e ) {
-			resetFilter();
 			e.preventDefault();
+			resetFilter();
 		} );
 		$( "#group thead td" ).each( function() {
 			var name = "";
@@ -159,7 +159,7 @@ function initFilter() {
 (function() {
 	var script = document.createElement( "script" );
 	script.type = "text/javascript";
-	script.src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
+	script.src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js";
 	document.getElementsByTagName( "head" )[0].appendChild( script );
 
 	// Poll for jQuery to come into existance
